@@ -33,7 +33,7 @@ class NutrientGoalViewModel @Inject constructor(
         when (event) {
             is NutrientGoalEvent.OnCarbRatioEnter -> {
                 state = state.copy(
-                    carbsRatio = filterOutDigits(event.ratio)
+                    carbsRatio = filterOutDigits(event.ratio),
                 )
             }
 

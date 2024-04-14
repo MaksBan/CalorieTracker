@@ -9,23 +9,23 @@ class ValidateNutrients {
         proteinRatioText: String,
         fatRatioText: String
     ): Result {
-        val carbsRatio = carbsRatioText.toIntOrNull()
-        val proteinRatio = proteinRatioText.toIntOrNull()
-        val fatRatio = fatRatioText.toIntOrNull()
+        val carbsRatio = carbsRatioText.toFloatOrNull()
+        val proteinRatio = proteinRatioText.toFloatOrNull()
+        val fatRatio = fatRatioText.toFloatOrNull()
 
         if (carbsRatio == null || proteinRatio == null || fatRatio == null)
             return Result.Error(
                 message = UiText.StringResource(com.plcoding.core.R.string.error_invalid_values)
             )
-        if (carbsRatio + proteinRatio + fatRatio != 100){
+        if (carbsRatio + proteinRatio + fatRatio != 100f){
             return Result.Error(
                 message = UiText.StringResource(com.plcoding.core.R.string.error_not_100_percent)
             )
         }
         return Result.Success(
-            carbsRatio / 100f,
-            proteinRatio / 100f,
-            fatRatio / 100f
+            carbsRatio,
+            proteinRatio,
+            fatRatio
         )
     }
 
