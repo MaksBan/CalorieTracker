@@ -1,8 +1,9 @@
-package com.plcoding.onboarding_presentation.height
+package com.plcoding.onboarding_presentation.weight
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.core.domain.preferences.Preferences
@@ -17,37 +18,36 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HeightViewModel @Inject constructor(
+class WeightViewModel @Inject constructor(
     private val preferences: Preferences,
-    private val filterOutDigits: FilterOutDigits
 ):ViewModel() {
 
-    var selectedHeight by mutableStateOf("180")
+    var selectedWeight by mutableStateOf("80.0")
         private set
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    fun onHeightEnter(height: String){
-        if(height.length <= 3){
-            this.selectedHeight = filterOutDigits(height)
+    fun onWeightEnter(weight: String){
+        if(weight.length <= 5){
+            this.selectedWeight = weight
         }
     }
 
     fun onNextClick(){
         viewModelScope.launch {
-            val heightNumber = selectedHeight.toIntOrNull() ?: kotlin.run {
+            val weightNumber = selectedWeight.toFloatOrNull() ?: kotlin.run {
                 _uiEvent.send(
                     UiEvent.ShowSnackbar(
-                        UiText.StringResource(com.plcoding.core.R.string.error_height_cant_be_empty)
+                        UiText.StringResource(com.plcoding.core.R.string.error_weight_cant_be_empty)
                     )
                 )
                 return@launch
             }
 
 
-            preferences.saveHeight(heightNumber)
-            _uiEvent.send(UiEvent.Navigate(Route.WEIGHT))
+            preferences.saveWeight(weightNumber)
+            _uiEvent.send(UiEvent.Navigate(Route.ACTIVITY))
         }
     }
 }
