@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     scaffoldState = scaffoldState
                 ) {
+                    it
                     NavHost(
                         navController = navController,
                         startDestination = Route.WELCOME
